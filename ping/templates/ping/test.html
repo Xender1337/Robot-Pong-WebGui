@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+
+    <!-- jQuery -->
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>label</th>
+            <th>status</th>
+            <th>programme</th>
+            <th>cadence</th>
+            <th>vitesse</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for rasp in raspb %}
+
+            <tr>
+                <td>{{ rasp.label }}</td>
+                <td>{{ rasp.status }}</td>
+                <td>{{ rasp.programme }}</td>
+                <td>{{ rasp.cadence }}</td>
+                <td>{{ rasp.vitesse }}</td>
+            </tr>
+
+
+        {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+
+    $(function () {
+
+        setTimeout(function(){
+            window.location.reload();
+        }, 10000);
+
+    });
+
+</script>
+
+</body>
+</html>
