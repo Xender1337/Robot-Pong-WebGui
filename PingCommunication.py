@@ -17,29 +17,29 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pong.settings")
 from ping.models import Raspberry
 
 # -------------------------------------------------------------------------------------------------------------------- #
+try:
+    ser = serial.Serial('/dev/ttyAMA0', 9600, timeout=1)
+    ser.close()
+    while 1:
+        for a_polling in Raspberry.objects.all():
 
-for a_polling in Raspberry.objects.all():
+            try:
+                print a_polling.label
 
-    try:
-        print a_polling.label
-        print a_polling.status
+            except:
+                pass
 
-    except:
-        pass
+            #Configuration de la connection serie
+            ser.close()
+            ser.open()
 
+            # "S1P30C100V34"
+            ligne_valide = re.compile(r'^(Z(?P<status>\d)P(?P<programme>\d+)C(?P<cadence>\d+)V(?P<vitesse>\d+)$)')
 
-    #Configuration de la connection serie
-    #ser = serial.Serial('/dev/ttyAMA0', 9600, timeout=1)
-    #ser.open()
-
-    # "S1P30C100V34"
-    ligne_valide = re.compile(r'^(S(?P<status>\d)P(?P<programme>\d+)C(?P<cadence>\d+)V(?P<vitesse>\d+)$)')
-
-    try:
-        while 1:
-
-                #response = ser.readline()
-                response = "S1P12C26V87"
+            while 1:
+                response = ser.readline()
+                #response = "Z1P22C88V77"
+                #response = "None"
                 res = ligne_valide.match(response)
                 if res is None:
                         continue
@@ -55,8 +55,10 @@ for a_polling in Raspberry.objects.all():
                 a_polling.save()
 
                 break
-    except KeyboardInterrupt:
-        #ser.close()
-        print 'hello'
+except KeyboardInterrupt:
+    print '\n' , 'Fin de l\'ecoute sur le port serial'
+    ser.close()
+
+
 
 # -------------------------------------------------------------------------------------------------------------------- #
