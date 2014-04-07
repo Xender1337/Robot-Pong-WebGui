@@ -11,16 +11,65 @@
     <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 
     <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">#}
-{##}
-{#    <!-- Optional theme -->#}
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="http://www.hands-of-gamer.fr/Source/gauge/gauge.min.js"></script>
 
 </head>
 <body>
+
+    <canvas id="gauge" width="400" height="400"
+		data-type="canv-gauge"
+		data-title="Cadence"
+		data-min-value="0"
+		data-max-value="100"
+		data-major-ticks="0 20 40 60 80 100"
+		data-minor-ticks="2"
+		data-stroke-ticks="true"
+		data-units="%"
+		data-value-format="2.0"
+		data-glow="Cadence"
+		data-animation-delay="10"
+		data-animation-duration="200"
+		data-animation-fn="bounce"
+		data-colors-needle="#f00 #00f"
+		data-highlights="0 20 #eee, 20 50 #ccc, 50 90 #aaa, 90 100 #eaa"
+        data-onready="setInterval(
+        function() {
+        {% for rasp in raspb %}
+        Gauge.Collection.get('gauge').setValue('{{rasp.cadence}}')
+        {% endfor %};
+        }, 1000);"
+
+	></canvas>
+
+	<canvas id="gauge1" width="400" height="400"
+		data-type="canv-gauge"
+		data-title="Vitesse"
+		data-min-value="0"
+		data-max-value="100"
+		data-major-ticks="0 20 40 60 80 100"
+		data-minor-ticks="2"
+		data-stroke-ticks="true"
+		data-units="%"
+		data-value-format="2.0"
+		data-glow="Vitesse"
+		data-animation-delay="10"
+		data-animation-duration="200"
+		data-animation-fn="bounce"
+		data-colors-needle="#f00 #00f"
+		data-highlights="0 20 #eee, 20 50 #ccc, 50 90 #aaa, 90 100 #eaa"
+		data-onready="setInterval(
+		function() {
+		{% for rasp in raspb %}
+		Gauge.Collection.get('gauge1').setValue('{{rasp.vitesse}}')
+		{% endfor %};
+		}, 1000);"
+	></canvas>
 
 <div class="table-responsive">
     <table class="table table-striped">
@@ -42,48 +91,18 @@
             </tr>
         {% endfor %}
 
-        {% for rasp in raspb %}
-        <div id="donut-example" style="height: 200px;"></div>
-                <script>
-                    Morris.Donut({
-                    element: 'donut-example',
-                    data: [
-                    {label: "Cadence", value: {{ rasp.cadence }}}
-                      ]
-                    });
-
-                </script>
-            <div id="donut-example1" style="height: 200px;"></div>
-                <script>
-                    Morris.Donut({
-                    element: 'donut-example1',
-                    data: [
-                    {label: "Vitesse", value: {{ rasp.vitesse }}}
-                      ]
-                    });
-
-                </script>
-        {% endfor %}
-
         </tbody>
     </table>
 </div>
 
-
-
-
-
-<script>
-
-    $(function () {
-
-        setTimeout(function(){
-            window.location.reload();
-        }, 10000);
-
-    });
-
-</script>
-
 </body>
 </html>
+
+<script>
+    setInterval(
+function ()
+{
+$('#gauge1').load('ajax_vitesse');
+
+}, 10000);
+</script>
